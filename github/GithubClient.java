@@ -25,6 +25,8 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class GithubClient {
 
+	/**this is another beautiful test
+	 * for everything */
 	private final RestTemplate restTemplate;
 
 	private static final String EVENT_ISSUES_URL = "https://api.github.com/repos/{owner}/{repo}/issues/events";
