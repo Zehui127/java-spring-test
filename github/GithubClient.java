@@ -46,7 +46,8 @@ public class GithubClient {
 		return Arrays.asList(fetchEvents(orgName, repoName).getBody());
 	}
 
-
+/**this is a beautiful test
+ * for everything */
 	private static class GithubAppTokenInterceptor implements ClientHttpRequestInterceptor {
 
 		private final String token;
