@@ -1,5 +1,6 @@
 package io.spring.demo.issuesdashboard.events;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -7,13 +8,14 @@ import java.util.stream.StreamSupport;
 import io.spring.demo.issuesdashboard.github.GithubClient;
 import io.spring.demo.issuesdashboard.github.RepositoryEvent;
 
+import org.json.JSONObject;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+import org.springframework.web.client.RestTemplate;
 @Controller
 public class EventsController {
 
@@ -47,6 +49,7 @@ public class EventsController {
 				.map(p -> new DashboardEntry(p, githubClient.fetchEventsList(p.getOrgName(), p.getRepoName())))
 				.collect(Collectors.toList());
 		model.addAttribute("entries", entries);
+		getEmployees();
 		return "dashboard";
 	}
 
@@ -54,6 +57,23 @@ public class EventsController {
 	public String admin(Model model) {
 		model.addAttribute("projects", repository.findAll());
 		return "admin";
+	}
+	private static void getEmployees()
+	{
+		final String uri = "https://jsonplaceholder.typicode.com/posts/1";
+
+		RestTemplate restTemplate = new RestTemplate();
+		String result = restTemplate.getForObject(uri, String.class);
+        JSONObject jsonObj = new JSONObject(result);
+		System.out.println(result);
+        //System.out.println(jsonObj);
+        System.out.println();
+        Iterator itr = jsonObj.keys();
+        while(itr.hasNext()) {
+            Object element = itr.next();
+            System.out.print(element);
+        }
+
 	}
 
 }
